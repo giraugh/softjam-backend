@@ -1,0 +1,23 @@
+{
+  "name": "softjam-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/retroverse/softjam-backend",
+  "author": "retroverse <ebreakey@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "concurrently": "^3.6.1",
+    "nodemon": "^1.18.3",
+    "typescript": "^3.0.1"
+  },
+  "scripts": {
+    "start": "node dist/server.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "watch-node": "nodemon dist/server.js",
+    "watch-ts": "tsc -w"
+  }
+}

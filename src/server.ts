@@ -1,4 +1,4 @@
-import appFactory from './appFactory'
+import makeApp from './app'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
@@ -20,5 +20,5 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => { console.log('connected to database') })
 
 // Start app
-const app = appFactory(db)
+const app = makeApp(db)
 app.listen(3000)

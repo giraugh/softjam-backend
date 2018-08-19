@@ -1,5 +1,5 @@
-import { Booking } from '../models/Booking'
 import { Request, Response } from 'express'
+import { Booking } from '../models/Booking'
 import errorHandler from '../handlers/error' 
 
 export default (req: Request, res: Response) => {

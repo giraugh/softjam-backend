@@ -9,7 +9,7 @@ const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 const seatsPerRow = 29
 export const seats: ISeatLabel[] = Array.from({length: rows.length * seatsPerRow}).map((_, i) => ({
   id: i,
-  label: rows[i % rows.length] + String(Math.floor(i / rows.length))
+  label: rows[i % rows.length] + String(1 + Math.floor(i / rows.length))
 }))
 
 export const seatIdToLabel = id =>

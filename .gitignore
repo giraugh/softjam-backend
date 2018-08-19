@@ -65,3 +65,6 @@ dist
 
 # Exclude local database
 test-db
+
+# Vscode settings
+.vscode

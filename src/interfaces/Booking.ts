@@ -1,7 +1,10 @@
 import { ISeat } from './Seat'
+import { IEventModel } from '../models/Event'
 
 export interface IBooking {
+  eventId: String
   bookerName: string,
   bookerEmail: string,
-  seat: ISeat
+  seats: ISeat[],
+  getEvent(): Promise<IEventModel>
 }

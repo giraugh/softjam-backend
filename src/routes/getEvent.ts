@@ -1,5 +1,5 @@
 import { Event } from '../models/Event'
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import errorHandler from '../handlers/error' 
 
 export default (req: Request, res: Response) => {

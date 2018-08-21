@@ -3,6 +3,7 @@ import { Booking, IBookingModel } from '../models/Booking'
 import { Event } from '../models/Event'
 import { Request, Response } from 'express'
 import errorHandler from '../handlers/error' 
+import { Types } from 'mongoose'
 
 // ['eventId', 'bookerName', 'bookerEmail', 'seatIds']
 
@@ -15,11 +16,23 @@ export default (req: Request, res: Response) => {
 
   // Written as asyncfunction for brevity
   const doCreateBooking = async function () {
+    // Is id a valid id?
+    if (!Types.ObjectId.isValid(req.body.eventId)) {
+      return res
+        .status(400)
+        .send(`Invalid id parameter: ${req.body.eventId}`)
+    }
+
+    // Get event
+    const event = await Event.findById(req.body.eventId)
+    if (!event) {
+      return res
+        .status(400)
+        .send(`No event with id ${req.body.eventId}`)
+    }
+
     // Ensure all seats are bookable
-    const areBookableSeats = await
-      Event
-        .findById(req.body.eventId)
-        .then(event => seats.every(seat => event.bookableSeats.map(s => s.id).includes(seat.id)))
+    const areBookableSeats = seats.every(seat => event.bookableSeats.map(s => s.id).includes(seat.id))
     if (!areBookableSeats) {
       return res
         .status(400)
@@ -27,11 +40,9 @@ export default (req: Request, res: Response) => {
     }
 
     // Ensure seats are available
-    const alreadyBooked = await
-      Event
-        .findById(req.body.eventId)
-        .then(event => event.getBookedSeats())
-        .then(bookedSeats => seats.some(seat => bookedSeats.map(s => s.id).includes(seat.id)))
+    const alreadyBooked = event
+      .getBookedSeats()
+      .then(bookedSeats => seats.some(seat => bookedSeats.map(s => s.id).includes(seat.id)))
     if (alreadyBooked) {
       return res
         .status(400)

@@ -1,11 +1,12 @@
+import { Types } from 'mongoose'
+import { SHA256 } from 'crypto-js'
 import { ISeat } from '../interfaces/Seat'
 import { Booking, IBookingModel } from '../models/Booking'
 import { Event } from '../models/Event'
 import { Request, Response } from 'express'
 import errorHandler from '../handlers/error' 
-import { Types } from 'mongoose'
 
-// ['eventId', 'bookerName', 'bookerEmail', 'seatIds']
+// ['eventId', 'bookerName', 'bookerEmail', 'seatIds', 'password']
 
 export default (req: Request, res: Response) => {
   // Seat Ids are a comma seperated list of ids
@@ -13,6 +14,9 @@ export default (req: Request, res: Response) => {
 
   // Convert to list of seats
   const seats = seatIds.map(id => <ISeat>({id: Number(id)}))
+
+  // Hash password
+  const hash = SHA256(req.body.password).toString()
 
   // Written as an async function for brevity
   const doCreateBooking = async function () {
@@ -51,7 +55,11 @@ export default (req: Request, res: Response) => {
     }
 
     // Create booking
-    const booking = new Booking({...req.body, seats})
+    const booking = new Booking({
+      ...req.body,
+      seats,
+      hash
+    })
     return booking
       .save()
   }
@@ -61,7 +69,9 @@ export default (req: Request, res: Response) => {
       console.log(`Saved booking for "${booking.bookerName}"`)
       res
         .status(200)
-        .send(booking._id)
+        .send({
+          id: booking._id
+        })
     })
     .catch(errorHandler('Error creating booking', res))
 }

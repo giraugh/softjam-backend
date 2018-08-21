@@ -7,7 +7,6 @@ export interface IEventModel extends IEvent, Document {}
 export let EventSchema = new Schema({
   title: String,
   date: Date,
-  price: Number,
   bookableSeats: [{ id: Number }]
 })
 

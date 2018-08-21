@@ -8,7 +8,7 @@ import removeEvent from '../routes/removeEvent'
 
 const router = Router()
 
-router.post('/', hasParams('body', ['title', 'date', 'price']), createEvent)
+router.post('/', hasParams('body', ['title', 'date']), createEvent)
 router.get('/:id/bookings', hasParams('params', ['id']), getEventBookings)
 router.get('/:id', hasParams('params', ['id']), getEvent)
 router.delete('/:id', hasParams('params', ['id']), removeEvent)

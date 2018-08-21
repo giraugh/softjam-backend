@@ -7,9 +7,9 @@ import removeBooking from '../routes/removeBooking'
 
 const router = Router()
 
-router.post('/', hasParams('body', ['eventId', 'bookerName', 'bookerEmail', 'seatIds']), createBooking)
+router.post('/', hasParams('body', ['eventId', 'bookerName', 'bookerEmail', 'seatIds', 'password']), createBooking)
 router.get('/:id', hasParams('params', ['id']), getBooking)
-router.delete('/:id', hasParams('params', ['id']), removeBooking)
+router.delete('/:id', hasParams('params', ['id']), hasParams('body', ['password']), removeBooking)
 router.get('/', getAllBookings)
 
 export default router

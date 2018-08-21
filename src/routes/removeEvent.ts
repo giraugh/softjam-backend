@@ -10,8 +10,7 @@ export default (req: Request, res: Response) => {
     .then(() => {
       console.log('Succesfully removed event')
       return res
-        .status(200)
-        .send()
+        .sendStatus(200)
     })
     .catch(errorHandler('Error removing event', res))
 }

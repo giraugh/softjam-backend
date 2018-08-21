@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 
 // Call Dotenv and pull Values
 dotenv.config()
-const {DBUSER, DBPASSWORD, DEVDBURL} = process.env
+const {DBUSER, DBPASSWORD, DEVDBURL, PORT} = process.env
 
 // Determine URL based on environment
 const dbURL = process.env.NODE_ENV === 'production'
@@ -17,8 +17,13 @@ mongoose.connect(dbURL, { useNewUrlParser: true })
 
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => { console.log('connected to database') })
+db.once('open', () => {
+  console.log('connected to database')
 
-// Start app
-const app = makeApp(db)
-app.listen(3000)
+  // Start app
+  console.log(`Gonna bind to port ${PORT}`)
+  const app = makeApp(db)
+  app.listen(PORT || 3000, () => {
+    console.log(`Listening on port ${PORT}`)
+  })
+})

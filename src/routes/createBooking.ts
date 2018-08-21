@@ -14,7 +14,7 @@ export default (req: Request, res: Response) => {
   // Convert to list of seats
   const seats = seatIds.map(id => <ISeat>({id: Number(id)}))
 
-  // Written as asyncfunction for brevity
+  // Written as an async function for brevity
   const doCreateBooking = async function () {
     // Is id a valid id?
     if (!Types.ObjectId.isValid(req.body.eventId)) {
@@ -25,6 +25,7 @@ export default (req: Request, res: Response) => {
 
     // Get event
     const event = await Event.findById(req.body.eventId)
+    console.log(event)
     if (!event) {
       return res
         .status(400)
@@ -40,7 +41,7 @@ export default (req: Request, res: Response) => {
     }
 
     // Ensure seats are available
-    const alreadyBooked = event
+    const alreadyBooked = await event
       .getBookedSeats()
       .then(bookedSeats => seats.some(seat => bookedSeats.map(s => s.id).includes(seat.id)))
     if (alreadyBooked) {

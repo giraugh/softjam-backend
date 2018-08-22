@@ -19,6 +19,7 @@ export default (req: Request, res: Response) => {
           .then(bookings => {
             res.send({
               title: event.title,
+              description: event.description,
               bookings: bookings.map(booking => ({
                 bookerName:  booking.bookerName,
                 bookerEmail: booking.bookerEmail,
